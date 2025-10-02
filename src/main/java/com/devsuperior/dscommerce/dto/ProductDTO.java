@@ -1,8 +1,13 @@
 package com.devsuperior.dscommerce.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.devsuperior.dscommerce.entities.Category;
 import com.devsuperior.dscommerce.entities.Product;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -24,6 +29,9 @@ public class ProductDTO {
     
     private String imgUrl;
     
+    @NotEmpty (message = "Deve ter pelo menos uma categoria")//not blanked aqui pq categories no diagrama uml deve ter no minimo 1
+    private List<CategoryDTO> categories = new ArrayList<>();
+    
     public ProductDTO() {
     }
 
@@ -41,6 +49,9 @@ public class ProductDTO {
         description = entity.getDescription();
         price = entity.getPrice();
         imgUrl = entity.getImgUrl();
+        for (Category cat : entity.getCategories()) {
+        	categories.add(new CategoryDTO(cat));
+        }
     }
 
     public Long getId() {
@@ -62,4 +73,12 @@ public class ProductDTO {
     public String getImgUrl() {
         return imgUrl;
     }
+
+	public List<CategoryDTO> getCategories() {
+		return categories;
+	}
+	public void setCategories(List<CategoryDTO> categories) {
+	    this.categories = categories;
+	}
+    
 }
